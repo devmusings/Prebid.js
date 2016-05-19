@@ -97,7 +97,7 @@ exports.aliasBidAdapter = function (bidderCode, alias) {
 exports.registerAnalyticsAdapter = function ({ adapter, code }) {
   if (adapter && code) {
 
-    if (typeof adapter.enable === CONSTANTS.objectType_function) {
+    if (typeof adapter.enableAnalytics === CONSTANTS.objectType_function) {
       adapter.code = code;
       _analyticsRegistry[code] = adapter;
     } else {
@@ -117,7 +117,7 @@ exports.enableAnalytics = function (config) {
   utils._each(config, adapterConfig => {
     var adapter = _analyticsRegistry[adapterConfig.provider];
     if (adapter) {
-      adapter.enable(adapterConfig);
+      adapter.enableAnalytics(adapterConfig);
     } else {
       utils.logError(`Prebid Error: no analytics adapter found in registry for
         ${adapterConfig.provider}.`);

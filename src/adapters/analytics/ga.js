@@ -27,7 +27,7 @@ var _trackerSend = null;
  * @param  {object} options use to configure adapter;
  * @return {[type]}    [description]
  */
-exports.enable = function ({ provider, options }) {
+exports.enableAnalytics = function ({ provider, options }) {
 
   _gaGlobal = provider || 'ga';
   _trackerSend = options.trackerName ? options.trackerName + '.send' : 'send';
@@ -85,6 +85,11 @@ exports.enable = function ({ provider, options }) {
   events.on(BID_WON, function (bid) {
     sendBidWonToGa(bid);
   });
+
+  // finally set this function to return log message, prevents multiple adapter listeners
+  this.enableAnalytics = function _enable() {
+    return utils.logMessage(`Analytics adapter already enabled, unnecessary call to \`enableAnalytics\`.`);
+  };
 };
 
 exports.getTrackerSend = function getTrackerSend() {

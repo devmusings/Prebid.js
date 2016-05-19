@@ -21,7 +21,7 @@ export default function AnalyticsAdapter({ global, url, handler }) {
   return {
     track: _track,
     enqueue: _enqueue,
-    enable: _enable
+    enableAnalytics: _enable
   };
 
   function _track({ type, data }) {
@@ -64,6 +64,11 @@ export default function AnalyticsAdapter({ global, url, handler }) {
     events.on(BID_RESPONSE, data => this.enqueue({ type: BID_RESPONSE, data }));
     events.on(BID_TIMEOUT, data => this.enqueue({ type: BID_TIMEOUT, data }));
     events.on(BID_WON, data => this.enqueue({ type: BID_WON, data }));
+
+    // finally set this function to return log message, prevents multiple adapter listeners
+    this.enableAnalytics = function _enable() {
+      return utils.logMessage(`Analytics adapter already enabled, unnecessary call to \`enableAnalytics\`.`);
+    };
   }
 
   function _emptyQueue() {
