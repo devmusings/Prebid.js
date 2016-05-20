@@ -7,7 +7,7 @@ import adapter from 'AnalyticsAdapter';
 export default adapter(
   {
     global: 'ExampleAnalyticsGlobalObject',
-    url: 'src/adapters/analytics/libraries/example.js',
+    url: 'http://localhost:9999/src/adapters/analytics/libraries/example.js',
     handler: 'on'
   }
 );

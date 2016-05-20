@@ -6,7 +6,7 @@ import adapter from 'AnalyticsAdapter';
 const utils = require('../../utils');
 
 const global = 'ExampleAnalyticsGlobalObject2';
-const url = 'src/adapters/analytics/libraries/example2.js';
+const url = 'http://localhost:9999/src/adapters/analytics/libraries/example2.js';
 const handler = 'send';
 
 export default utils.extend(adapter(
