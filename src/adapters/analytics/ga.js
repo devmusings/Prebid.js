@@ -30,9 +30,9 @@ var _trackerSend = null;
 exports.enableAnalytics = function ({ provider, options }) {
 
   _gaGlobal = provider || 'ga';
-  _trackerSend = options.trackerName ? options.trackerName + '.send' : 'send';
+  _trackerSend = options && options.trackerName ? options.trackerName + '.send' : 'send';
 
-  if (typeof options.enableDistribution !== 'undefined') {
+  if (options && typeof options.enableDistribution !== 'undefined') {
     _enableDistribution = options.enableDistribution;
   }
 
