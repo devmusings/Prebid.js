@@ -294,7 +294,7 @@ pbjs.setTargetingForGPTAsync = function () {
       .forEach(targeting => targeting[Object.keys(targeting)[0]]
         .forEach(key => {
           key[Object.keys(key)[0]]
-            .map((value, index, array) => {
+            .map((value) => {
               utils.logMessage(`Attempting to set key value for slot: ${slot.getSlotElementId()} key: ${Object.keys(key)[0]} value: ${value}`);
               return value;
             })
@@ -582,8 +582,12 @@ pbjs.loadScript = function (tagSrc, callback, useCache) {
  * @param  {object} config object {provider : 'string', options : {}}
  */
 pbjs.enableAnalytics = function (config) {
-  utils.logInfo('Invoking pbjs.enableAnalytics for: ', config);
-  adaptermanager.enableAnalytics(config);
+  if (config && !utils.isEmpty(config)) {
+    utils.logInfo('Invoking pbjs.enableAnalytics for: ', config);
+    adaptermanager.enableAnalytics(config);
+  } else {
+    utils.logError('pbjs.enableAnalytics should be called with option {}');
+  }
 };
 
 /**
