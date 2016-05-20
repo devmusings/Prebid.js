@@ -53,7 +53,7 @@ export default function AnalyticsAdapter({ global, url, handler }) {
       if (type === BID_TIMEOUT) {
         _timedOutBidders = args.bidderCode;
       } else {
-        this.enqueue({ type, args });
+        _enqueue({ type, args });
       }
     });
 
