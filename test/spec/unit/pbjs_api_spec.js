@@ -8,11 +8,8 @@ var bidmanager = require('src/bidmanager');
 var adloader = require('src/adloader');
 var adaptermanager = require('src/adaptermanager');
 var events = require('src/events');
-var ga = require('src/adapters/analytics/ga');
 var CONSTANTS = require('src/constants.json');
 
-var bidResponses = require('test/fixtures/bid-responses.json');
-var targetingMap = require('test/fixtures/targeting-map.json');
 var config = require('test/fixtures/config.json');
 
 pbjs = pbjs || {};

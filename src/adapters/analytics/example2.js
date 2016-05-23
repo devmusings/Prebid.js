@@ -17,8 +17,9 @@ export default utils.extend(adapter(
   }
 ),
   {
-  track({ type, data }) {
+  // Override AnalyticsAdapter functions by supplying custom methods
+  track({ eventType, args }) {
     console.log('track function override for Example2 Analytics');
-    window[global](handler, type, data);
+    window[global](handler, eventType, args);
   }
 });

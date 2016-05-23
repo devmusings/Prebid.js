@@ -1,7 +1,7 @@
-import events from 'src/events';
 import CONSTANTS from 'src/constants.json';
 import { loadScript } from 'src/adloader';
 
+const events = require('src/events');
 const utils = require('../../utils');
 
 const BID_REQUESTED = CONSTANTS.EVENTS.BID_REQUESTED;
@@ -24,19 +24,19 @@ export default function AnalyticsAdapter({ global, url, handler }) {
     enableAnalytics: _enable
   };
 
-  function _track({ type, data }) {
-    window[global](handler, type, data);
+  function _track({ eventType, args }) {
+    window[global](handler, eventType, args);
   }
 
-  function _enqueue({ type, data }) {
+  function _enqueue({ eventType, args }) {
     const _this = this;
 
-    if (global && window[global] && type && data && data.bidderCode) {
-      this.track({ type, data });
+    if (global && window[global] && eventType && args) {
+      _track({ eventType, args });
     } else {
       _queue.push(function () {
         _eventCount++;
-        _this.track({ type, data });
+        _this.track({ eventType, args });
       });
     }
   }
@@ -48,26 +48,26 @@ export default function AnalyticsAdapter({ global, url, handler }) {
         return;
       }
 
-      const { type, args } = event;
+      const { eventType, args } = event;
 
-      if (type === BID_TIMEOUT) {
+      if (eventType === BID_TIMEOUT) {
         _timedOutBidders = args.bidderCode;
       } else {
-        _enqueue({ type, args });
+        _enqueue({ eventType, args });
       }
     });
 
     //Next register event listeners to send data immediately
 
     //bidRequests
-    events.on(BID_REQUESTED, data => this.enqueue({ type: BID_REQUESTED, data }));
-    events.on(BID_RESPONSE, data => this.enqueue({ type: BID_RESPONSE, data }));
-    events.on(BID_TIMEOUT, data => this.enqueue({ type: BID_TIMEOUT, data }));
-    events.on(BID_WON, data => this.enqueue({ type: BID_WON, data }));
+    events.on(BID_REQUESTED, args => this.enqueue({ eventType: BID_REQUESTED, args }));
+    events.on(BID_RESPONSE, args => this.enqueue({ eventType: BID_RESPONSE, args }));
+    events.on(BID_TIMEOUT, args => this.enqueue({ eventType: BID_TIMEOUT, args }));
+    events.on(BID_WON, args => this.enqueue({ eventType: BID_WON, args }));
 
     // finally set this function to return log message, prevents multiple adapter listeners
     this.enableAnalytics = function _enable() {
-      return utils.logMessage(`Analytics adapter already enabled, unnecessary call to \`enableAnalytics\`.`);
+      return utils.logMessage(`Analytics adapter for "${global}" already enabled, unnecessary call to \`enableAnalytics\`.`);
     };
   }
 
